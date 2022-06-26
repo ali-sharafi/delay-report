@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\DelayReportController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,5 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => '/v1', function () {
 
-    Route::post('/delay-reports', [DelayReportController::class, 'store']);
+    Route::group(['prefix' => '/orders'], function () {
+        Route::post('{order}/delay-reports', [DelayReportController::class, 'store']);
+    });
 }]);
