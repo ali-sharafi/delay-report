@@ -18,4 +18,16 @@ class OrderService implements OrderInterface
     {
         return true;
     }
+
+    /**
+     * Find delay time to delivery for an order
+     * 
+     * @param \App\Models\Order $order
+     * 
+     * @return mixed
+     */
+    public function findOrderDelayTime(Order $order)
+    {
+        # code...
+    }
 }
