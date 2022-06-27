@@ -38,6 +38,8 @@ class OrderService implements OrderInterface
         $delayTimeEstimatorService = new DelayTimeEstimatorService();
         $delayTime = $delayTimeEstimatorService->estimate($order);
 
+        if (empty($delayTime)) return $order->delivery_at;
+
         $this->saveOrderDelayTime($order, $delayTime);
 
         return $order->delivery_at;
