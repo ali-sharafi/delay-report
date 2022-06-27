@@ -10,6 +10,18 @@ use Carbon\Carbon;
 class OrderService implements OrderInterface
 {
     /**
+     * Find an order by id
+     * 
+     * @param int $orderID
+     * 
+     * @return \App\Models\Order
+     */
+    public function findOrder(int $orderID): Order
+    {
+        return Order::find($orderID);
+    }
+    
+    /**
      * Check an order to add new delay report
      * 
      * @param \App\Models\Order $order
