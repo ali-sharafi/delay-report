@@ -13,4 +13,9 @@ class Order extends Model
     {
         return $this->hasOne(Trip::class);
     }
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
 }
