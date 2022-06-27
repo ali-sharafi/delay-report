@@ -6,5 +6,5 @@ use App\Models\Order;
 
 interface DelayTimeEstimatorInterface
 {
-    public function estimate(Order $order): mixed;
+    public function estimate(Order $order): int|null;
 }
