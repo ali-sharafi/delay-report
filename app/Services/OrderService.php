@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Contracts\OrderInterface;
 use App\Enum\TripStatusEnum;
 use App\Models\Order;
+use Carbon\Carbon;
 
 class OrderService implements OrderInterface
 {
@@ -32,8 +33,28 @@ class OrderService implements OrderInterface
      * 
      * @return mixed
      */
-    public function findOrderDelayTime(Order $order)
+    public function findOrderDelayTime(Order $order): string
     {
-        # code...
+        $delayTimeEstimatorService = new DelayTimeEstimatorService();
+        $delayTime = $delayTimeEstimatorService->estimate($order);
+
+        $this->saveOrderDelayTime($order, $delayTime);
+
+        return $order->delivery_at;
+    }
+
+    /**
+     * Save new order delay time into DB
+     * 
+     * @param \App\Models\Order $order
+     * @param int $delayTime
+     * 
+     * @return void
+     */
+    private function saveOrderDelayTime(Order $order, int $delayTime): void
+    {
+        $order->delivery_time = $delayTime;
+        $order->delivery_at = Carbon::now()->addMinutes($delayTime);
+        $order->save();
     }
 }
