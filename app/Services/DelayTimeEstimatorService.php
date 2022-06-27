@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Contracts\DelayTimeEstimatorInterface;
 use App\Models\Order;
 
-class DelayTimeEstimator implements DelayTimeEstimatorInterface
+class DelayTimeEstimatorService implements DelayTimeEstimatorInterface
 {
     /**
      * Estimate new delay time for order
