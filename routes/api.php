@@ -16,7 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => '/v1'], function () {
 
-    Route::group(['prefix' => '/orders'], function () {
-        Route::post('{order}/delay-reports', [DelayReportController::class, 'store']);
-    });
+    Route::post('/orders/{order}/delay-reports', [DelayReportController::class, 'store']);
 });
