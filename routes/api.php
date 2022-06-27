@@ -17,4 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => '/v1'], function () {
 
     Route::post('/orders/{order}/delay-reports', [DelayReportController::class, 'store']);
+
+    Route::get('/delay-reports/assign', [DelayReportController::class, 'assign']);
 });
