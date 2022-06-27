@@ -9,7 +9,7 @@ class DelayReportController extends BaseController
 {
     public function store(Order $order, OrderService $orderService)
     {
-        if (!$orderService->canAddDelayReportToOrder($order)) {
+        if ($orderService->isNeedNewDelayTime($order)) {
             $deliveryTime = $orderService->findOrderDelayTime($order);
 
             $message = "Your order will devliver at $deliveryTime";

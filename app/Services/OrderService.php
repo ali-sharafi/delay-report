@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\OrderInterface;
+use App\Enum\TripStatusEnum;
 use App\Models\Order;
 
 class OrderService implements OrderInterface
@@ -14,9 +15,14 @@ class OrderService implements OrderInterface
      * 
      * @return bool
      */
-    public function canAddDelayReportToOrder(Order $order): bool
+    public function isNeedNewDelayTime(Order $order): bool
     {
-        return true;
+        return isset($order->trip) &&
+            in_array($order->trip->status, [
+                TripStatusEnum::ASSIGNED,
+                TripStatusEnum::AT_VENDOR,
+                TripStatusEnum::PICKED
+            ]);
     }
 
     /**
