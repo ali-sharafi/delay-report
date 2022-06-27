@@ -12,6 +12,19 @@ class DelayReportService  implements DelayReportInterface
     public function __construct(protected OrderService $orderService)
     {
     }
+
+    public function assignDelayToAgent(): mixed
+    {
+        $item = Redis::lPop(static::REDIS_DELAY_KEY);
+        $response = ['data' => []];
+
+        if ($item) {
+            $response = ['data' => $this->orderService->findOrder($item)];
+        }
+
+        return $response;
+    }
+
     /**
      * Create new delay report for an order
      * 
@@ -42,7 +55,7 @@ class DelayReportService  implements DelayReportInterface
      */
     public function addDelayReortToQueue(Order $order): void
     {
-        Redis::rpush('delay_report_list', $order->id);
+        Redis::rpush(static::REDIS_DELAY_KEY, $order->id);
     }
 
     /**
