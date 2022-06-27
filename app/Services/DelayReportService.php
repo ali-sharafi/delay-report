@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\DelayReportInterface;
+use App\Events\OrderDelayed;
 use App\Models\Order;
 use Illuminate\Support\Facades\Redis;
 
@@ -20,6 +21,8 @@ class DelayReportService  implements DelayReportInterface
      */
     public function create(Order $order): string
     {
+        OrderDelayed::dispatch($order, $order->delivery_at);
+
         $response = __('delay_report.delay_report_created');
 
         if ($this->orderService->isNeedNewDelayTime($order)) {
