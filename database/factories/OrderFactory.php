@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Vendor;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,10 +19,11 @@ class OrderFactory extends Factory
     public function definition()
     {
         $deliveryTime = rand(10, 50);
-
+        $vendor = Vendor::factory()->create();
         return [
             'delivery_time' => $deliveryTime,
-            'delivery_at' => Carbon::now()->addMinutes($deliveryTime)
+            'delivery_at' => Carbon::now()->addMinutes($deliveryTime),
+            'vendor_id' => $vendor->id
         ];
     }
 }
