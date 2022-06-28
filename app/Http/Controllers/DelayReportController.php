@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AssignDelayReportRequest;
 use App\Http\Requests\StoreDelayReportRequest;
 use App\Models\Order;
 use App\Services\DelayReportService;
@@ -22,11 +23,9 @@ class DelayReportController extends BaseController
         return $this->successReponse($response);
     }
 
-    public function assign()
+    public function assign(AssignDelayReportRequest $request)
     {
-        $this->request->validate(['agent' => 'required']);//This should be replaced when the authentication part is added and get agent id through the signed-in user
-
-        $response = $this->delayReportService->assignDelayToAgent($this->request->agent);
+        $response = $this->delayReportService->assignDelayToAgent($request->agent);
 
         return $this->successReponse($response);
     }
