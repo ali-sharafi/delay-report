@@ -2,55 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\ResponseHandler;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class BaseController extends Controller
 {
-    /**
-     * @var
-     * 
-     * Responses statuses
-     */
-    const SUCCESS = 'Success',
-        ERROR = 'Error',
-        ERROR_MESSAGE = 'Some Error occured';
+    use ResponseHandler;
 
     public function __construct(protected Request $request)
     {
-    }
-
-    /**
-     * Send a success response to client
-     * 
-     * @param static::SUCCESS $status
-     * @param array $data
-     * @param \Illuminate\Http\Response::HTTP_OK
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function successReponse($data = [], $statusCode = Response::HTTP_OK)
-    {
-        return response()->json([
-            'status' => self::SUCCESS,
-            'data' => $data
-        ], $statusCode);
-    }
-
-    /**
-     * Send a success response to client
-     * 
-     * @param static::ERROR $status
-     * @param string $message
-     * @param \Illuminate\Http\Response::HTTP_BAD_REQUEST
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function errorResponse($message = self::ERROR_MESSAGE, $statusCode = Response::HTTP_BAD_REQUEST)
-    {
-        return response()->json([
-            'status' => self::ERROR,
-            'message' => $message,
-        ], $statusCode);
     }
 }
