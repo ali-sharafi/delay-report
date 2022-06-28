@@ -18,4 +18,9 @@ class Order extends Model
     {
         return $this->belongsTo(Vendor::class);
     }
+
+    public function scopeForAgent($query, $agent)
+    {
+        return $query->where('agent_id', $agent);
+    }
 }
