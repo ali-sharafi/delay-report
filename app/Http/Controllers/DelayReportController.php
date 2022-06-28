@@ -24,7 +24,7 @@ class DelayReportController extends BaseController
 
     public function assign()
     {
-        $this->request->validate(['agent' => 'required']);
+        $this->request->validate(['agent' => 'required']);//This should be replaced when the authentication part is added and get agent id through the signed-in user
 
         $response = $this->delayReportService->assignDelayToAgent($this->request->agent);
 
