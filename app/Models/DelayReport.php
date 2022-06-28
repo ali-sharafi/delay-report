@@ -11,7 +11,12 @@ class DelayReport extends Model
 
     protected $guarded = ['id'];
 
-    public function scopeOfDateBetween($query, string $startDate, string $endDate)
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
+
+    public function scopeDateBetween($query, string $startDate, string $endDate)
     {
         return $query->whereBetween('date_at', [$startDate, $endDate]);
     }
