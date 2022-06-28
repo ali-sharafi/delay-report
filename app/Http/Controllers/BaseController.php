@@ -29,10 +29,10 @@ class BaseController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function successReponse($status = self::SUCCESS, $data = [], $statusCode = Response::HTTP_OK)
+    public function successReponse($data = [], $statusCode = Response::HTTP_OK)
     {
         return response()->json([
-            'status' => $status,
+            'status' => self::SUCCESS,
             'data' => $data
         ], $statusCode);
     }
@@ -46,10 +46,10 @@ class BaseController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function errorResponse($status = self::ERROR, $message = self::ERROR_MESSAGE, $statusCode = Response::HTTP_BAD_REQUEST)
+    public function errorResponse($message = self::ERROR_MESSAGE, $statusCode = Response::HTTP_BAD_REQUEST)
     {
         return response()->json([
-            'status' => $status,
+            'status' => self::ERROR,
             'message' => $message,
         ], $statusCode);
     }

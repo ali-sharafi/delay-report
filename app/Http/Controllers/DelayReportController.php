@@ -18,7 +18,7 @@ class DelayReportController extends BaseController
     {
         $response = $this->delayReportService->create($order);
 
-        return $this->successReponse(static::SUCCESS, ['message' => $response]);
+        return $this->successReponse($response);
     }
 
     public function assign()
@@ -27,7 +27,7 @@ class DelayReportController extends BaseController
 
         $response = $this->delayReportService->assignDelayToAgent($this->request->agent);
 
-        return $this->successReponse(static::SUCCESS, $response);
+        return $this->successReponse($response);
     }
 
     public function getCurrentWeekDelayReports()
@@ -37,6 +37,6 @@ class DelayReportController extends BaseController
 
         $response = $this->delayReportService->findDelays($startDate, $endDate);
 
-        return $this->successReponse(static::SUCCESS, $response);
+        return $this->successReponse($response);
     }
 }
