@@ -11,5 +11,5 @@ interface DelayReportInterface
     public function create(Order $order): string;
     public function createNewOrderDeliveryTime(Order $order): int;
     public function addDelayReortToQueue(Order $order): void;
-    public function assignDelayToAgent(): mixed;
+    public function assignDelayToAgent(int $agentID): mixed;
 }
