@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Contracts\DelayReportInterface;
+use App\Enum\OrderStatusEnum;
 use App\Events\OrderDelayed;
+use App\Events\OrderStatusChanged;
 use App\Models\DelayReport;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
@@ -45,9 +47,9 @@ class DelayReportService  implements DelayReportInterface
 
         if ($item) {
             $order = $this->orderService->findOrder($item);
-            $order->agent_id = $agentID;
-            $order->save();
             $response = ['data' => $order];
+            
+            OrderStatusChanged::dispatch($order, OrderStatusEnum::ASSIGNED_AGENT, $agentID);
         }
 
         return $response;
@@ -84,6 +86,8 @@ class DelayReportService  implements DelayReportInterface
     public function addDelayReortToQueue(Order $order): void
     {
         Redis::rpush(static::REDIS_DELAY_KEY, $order->id);
+
+        OrderStatusChanged::dispatch($order, OrderStatusEnum::DELAY_QUEUE);
     }
 
     /**
