@@ -3,12 +3,29 @@
 namespace App\Services;
 
 use App\Contracts\OrderInterface;
+use App\Enum\OrderStatusEnum;
 use App\Enum\TripStatusEnum;
 use App\Models\Order;
 use Carbon\Carbon;
 
 class OrderService implements OrderInterface
 {
+    /**
+     * Update an order status
+     * 
+     * @param \App\Models\Order $order
+     * @param \App\Enum\OrderStatusEnum $status
+     * @param int $agent
+     * 
+     * @return void
+     */
+    public function updateOrderStatus(Order $order, OrderStatusEnum $status, int $agent = null)
+    {
+        $order->status = $status;
+        if ($agent) $order->agent_id = $agent;
+        $order->save();
+    }
+
     /**
      * Find an order by id
      * 
@@ -20,7 +37,7 @@ class OrderService implements OrderInterface
     {
         return Order::find($orderID);
     }
-    
+
     /**
      * Check an order to add new delay report
      * 
