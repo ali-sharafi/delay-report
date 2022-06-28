@@ -13,6 +13,12 @@ class DelayReportService  implements DelayReportInterface
     {
     }
 
+    /**
+     * Assign first item in queue to agent
+     * 
+     * @param int $agentID
+     * @return mixed
+     */
     public function assignDelayToAgent(int $agentID): mixed
     {
         $item = Redis::lPop(static::REDIS_DELAY_KEY);
