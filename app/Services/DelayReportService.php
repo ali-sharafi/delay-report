@@ -43,12 +43,12 @@ class DelayReportService  implements DelayReportInterface
     public function assignDelayToAgent(int $agentID): mixed
     {
         $item = Redis::lPop(static::REDIS_DELAY_KEY);
-        $response = ['data' => []];
+        $response = [];
 
         if ($item) {
             $order = $this->orderService->findOrder($item);
-            $response = ['data' => $order];
-            
+            $response = $order;
+
             OrderStatusChanged::dispatch($order, OrderStatusEnum::ASSIGNED_AGENT, $agentID);
         }
 
