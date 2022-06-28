@@ -22,7 +22,7 @@ class OrderService implements OrderInterface
     public function updateOrderStatus(Order $order, OrderStatusEnum $status, int $agent = null)
     {
         $order->status = $status;
-        if ($agent) $order->agent_id = $agent;
+        $order->agent_id = $agent;
         $order->save();
     }
 
