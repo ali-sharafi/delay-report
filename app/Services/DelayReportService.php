@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\DelayReportInterface;
 use App\Events\OrderDelayed;
+use App\Models\DelayReport;
 use App\Models\Order;
 use Illuminate\Support\Facades\Redis;
 
@@ -11,6 +12,19 @@ class DelayReportService  implements DelayReportInterface
 {
     public function __construct(protected OrderService $orderService)
     {
+    }
+
+    /**
+     * Find stored delays by date period
+     * 
+     * @param string $startDate
+     * @param string $endDate
+     * 
+     * @return mixed
+     */
+    public function findDelays(string $startDate, string $endDate): mixed
+    {
+        return DelayReport::dateBetween($startDate, $endDate)->get();
     }
 
     /**
