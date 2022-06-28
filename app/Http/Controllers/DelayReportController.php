@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreDelayReportRequest;
 use App\Models\Order;
 use App\Services\DelayReportService;
 use Carbon\Carbon;
@@ -14,7 +15,7 @@ class DelayReportController extends BaseController
         parent::__construct($request);
     }
 
-    public function store(Order $order)
+    public function store(Order $order, StoreDelayReportRequest $request)
     {
         $response = $this->delayReportService->create($order);
 
