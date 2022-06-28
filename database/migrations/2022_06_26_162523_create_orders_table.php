@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Agent;
 use App\Models\Vendor;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,6 +18,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Vendor::class);
+            $table->foreignIdFor(Agent::class);
             $table->smallInteger('delivery_time')->default(0);
             $table->dateTime('delivery_at')->nullable();
             $table->timestamps();
