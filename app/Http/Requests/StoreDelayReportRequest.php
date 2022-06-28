@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\DeliveryTime;
+use App\Rules\UniqueDelayReport;
 
 class StoreDelayReportRequest extends BaseRequest
 {
@@ -34,7 +35,7 @@ class StoreDelayReportRequest extends BaseRequest
     public function rules()
     {
         return [
-            'order' => ['required', new DeliveryTime()]
+            'order' => ['required', new DeliveryTime(), new UniqueDelayReport()]
         ];
     }
 }
