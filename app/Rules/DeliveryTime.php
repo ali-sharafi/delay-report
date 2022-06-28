@@ -26,7 +26,7 @@ class DeliveryTime implements Rule
      */
     public function passes($attribute, $value)
     {
-        return $value['delivery_at'] > now();
+        return $value['delivery_at'] < now();
     }
 
     /**
