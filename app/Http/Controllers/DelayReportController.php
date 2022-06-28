@@ -22,7 +22,9 @@ class DelayReportController extends BaseController
 
     public function assign()
     {
-        $response = $this->delayReportService->assignDelayToAgent();
+        $this->request->validate(['agent' => 'required']);
+
+        $response = $this->delayReportService->assignDelayToAgent($this->request->agent);
 
         return $this->successReponse($response);
     }
