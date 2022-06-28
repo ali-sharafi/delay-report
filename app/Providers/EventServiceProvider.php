@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Events\OrderDelayed;
+use App\Events\OrderStatusChanged;
 use App\Listeners\StoreOrderDelay;
+use App\Listeners\UpdateOrderStatus;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -19,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         OrderDelayed::class => [
             StoreOrderDelay::class
+        ],
+        OrderStatusChanged::class => [
+            UpdateOrderStatus::class
         ]
     ];
 
