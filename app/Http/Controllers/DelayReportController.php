@@ -37,6 +37,6 @@ class DelayReportController extends BaseController
 
         $response = $this->delayReportService->findDelays($startDate, $endDate);
 
-        return $this->successReponse(static::SUCCESS, ['data' => $response]);
+        return $this->successReponse(static::SUCCESS, $response);
     }
 }
