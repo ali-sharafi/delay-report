@@ -6,6 +6,7 @@ use App\Contracts\DelayReportInterface;
 use App\Events\OrderDelayed;
 use App\Models\DelayReport;
 use App\Models\Order;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 
 class DelayReportService  implements DelayReportInterface
@@ -24,7 +25,11 @@ class DelayReportService  implements DelayReportInterface
      */
     public function findDelays(string $startDate, string $endDate): mixed
     {
-        return DelayReport::dateBetween($startDate, $endDate)->get();
+        return DelayReport::with(['vendor:name,id'])
+            ->dateBetween($startDate, $endDate)
+            ->groupBy('vendor_id')
+            ->orderBy('delay_time', 'Desc')
+            ->get(['vendor_id', DB::raw('SUM(delay_time) as delay_time')]);
     }
 
     /**
