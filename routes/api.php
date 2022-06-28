@@ -20,5 +20,5 @@ Route::group(['prefix' => '/v1'], function () {
 
     Route::get('/delay-reports/assign', [DelayReportController::class, 'assign']);
 
-    Route::get('/delay-reports', [DelayReportController::class, 'getReport']);
+    Route::get('/delay-reports/current-week', [DelayReportController::class, 'getCurrentWeekDelayReports']);
 });
