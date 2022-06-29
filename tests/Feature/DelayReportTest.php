@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Contracts\DelayReportInterface;
 use App\Models\Agent;
 use App\Models\Order;
+use App\Models\Trip;
+use App\Services\DelayTimeEstimatorService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Redis;
@@ -156,6 +158,27 @@ class DelayReportTest extends TestCase
                         'vendor_id' => $order->vendor_id
                     ]
                 ]
+            ]);
+    }
+
+    /** @test */
+    public function test_must_not_add_delay_report_when_order_is_not_ready()
+    {
+        $order = Order::factory()->create([
+            'delivery_time' => 10,
+            'delivery_at' => Carbon::now()->subMinutes(5)
+        ]);
+
+        Trip::factory()->create(['order_id' => $order->id]);
+
+        $timeEstimator = new DelayTimeEstimatorService();
+        $estimateTime = $timeEstimator->estimate($order);
+
+        $this->postJson("/api/v1/orders/{$order->id}/delay-reports", [])
+            ->assertStatus(200)
+            ->assertSimilarJson([
+                "status" => "Success",
+                'data' => __('delay_report.new_delivery_time', ['time' => Carbon::now()->addMinutes($estimateTime)])
             ]);
     }
 }
