@@ -40,6 +40,7 @@ APP_PORT=8000
 And replace this:
 ```bash
 REDIS_HOST=127.0.0.1
+DB_HOST=127.0.0.1
 DB_USERNAME=root
 DB_PASSWORD=
 ```
@@ -47,6 +48,7 @@ To:
 
 ```bash
 REDIS_HOST=redis
+DB_HOST=mysql
 DB_USERNAME=sail
 DB_PASSWORD=password
 ```
