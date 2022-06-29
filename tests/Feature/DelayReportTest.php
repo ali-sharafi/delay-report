@@ -3,12 +3,15 @@
 namespace Tests\Feature;
 
 use App\Contracts\DelayReportInterface;
+use App\Events\OrderStatusChanged;
 use App\Models\Agent;
 use App\Models\Order;
 use App\Models\Trip;
+use App\Services\DelayReportService;
 use App\Services\DelayTimeEstimatorService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Redis;
 use Tests\TestCase;
 
@@ -180,5 +183,24 @@ class DelayReportTest extends TestCase
                 "status" => "Success",
                 'data' => __('delay_report.new_delivery_time', ['time' => Carbon::now()->addMinutes($estimateTime)])
             ]);
+    }
+
+    /** @test */
+    public function test_order_status_change_published_on_assign()
+    {
+        Event::fake();
+
+        $order = Order::factory()->create();
+        $agent = Agent::factory()->create();
+
+        Redis::rpush(DelayReportInterface::REDIS_DELAY_KEY, $order->id);
+
+        $DelayReportService = app()->make(DelayReportService::class);
+
+        $DelayReportService->assignDelayToAgent($agent->id);
+
+        Event::assertDispatched(function (OrderStatusChanged $event) use ($order) {
+            return $event->order->id === $order->id;
+        });
     }
 }
