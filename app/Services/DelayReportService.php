@@ -95,9 +95,9 @@ class DelayReportService  implements DelayReportInterface
      * 
      * @param \App\Models\Order $order
      * 
-     * @return int
+     * @return string
      */
-    public function createNewOrderDeliveryTime(Order $order): int
+    public function createNewOrderDeliveryTime(Order $order): string
     {
         $deliveryTime = $this->orderService->findOrderDelayTime($order);
 
