@@ -49,9 +49,9 @@ class OrderService implements OrderInterface
     {
         return isset($order->trip) &&
             in_array($order->trip->status, [
-                TripStatusEnum::ASSIGNED,
-                TripStatusEnum::AT_VENDOR,
-                TripStatusEnum::PICKED
+                TripStatusEnum::ASSIGNED->value,
+                TripStatusEnum::AT_VENDOR->value,
+                TripStatusEnum::PICKED->value
             ]);
     }
 
