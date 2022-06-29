@@ -31,6 +31,21 @@ Configure App:
 ```bash
 cp .env.example .env
 ```
+Add this to .env file:
+
+```bash
+FORWARD_DB_PORT=3307
+APP_PORT=8000
+```
+And replace this:
+```bash
+REDIS_HOST=127.0.0.1
+```
+To:
+
+```bash
+REDIS_HOST=redis
+```
 
 Run Application:
 
