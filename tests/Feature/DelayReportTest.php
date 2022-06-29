@@ -111,6 +111,33 @@ class DelayReportTest extends TestCase
     }
 
     /** @test */
+    public function test_can_not_reassign_an_order_to_agents()
+    {
+        $agent = Agent::factory()->create();
+        $order = Order::factory()->create([
+            'delivery_time' => 10,
+            'delivery_at' => Carbon::now()->subMinutes(5)
+        ]);
+
+        $this->postJson("/api/v1/orders/{$order->id}/delay-reports", []);
+
+        $this->postJson("/api/v1/delay-reports/assign", [
+            'agent' => $agent->id
+        ]);
+
+        $anotherAgent = Agent::factory()->create();
+
+        $this->postJson("/api/v1/delay-reports/assign", [
+            'agent' => $anotherAgent->id
+        ])
+            ->assertStatus(200)
+            ->assertExactJson([
+                'status' => 'Success',
+                'data' => []
+            ]);
+    }
+
+    /** @test */
     public function test_can_get_report()
     {
         $order = Order::factory()->create([
