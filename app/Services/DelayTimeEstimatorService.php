@@ -24,7 +24,7 @@ class DelayTimeEstimatorService implements DelayTimeEstimatorInterface
 
             $responseBody = $response->json('data');
 
-            return $responseBody->eta;
+            return $responseBody['eta'];
         } catch (Exception $e) {
             Log::debug($e);
             return null;
