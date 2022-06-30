@@ -36,4 +36,16 @@ class DelayReportTest extends TestCase
             return $event->order->id === $order->id && $event->status == OrderStatusEnum::DELAY_QUEUE;
         });
     }
+
+    /** @test */
+    public function test_can_create_new_order_delivery_time()
+    {
+        $order = Order::factory()->create();
+
+        $service = app()->make(DelayReportService::class);
+
+        $deliveryTime = $service->createNewOrderDeliveryTime($order);
+
+        $this->assertEquals($order->fresh()->delivery_at, $deliveryTime);
+    }
 }
