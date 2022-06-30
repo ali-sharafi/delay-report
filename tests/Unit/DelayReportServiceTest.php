@@ -11,8 +11,17 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Redis;
 use Tests\TestCase;
 
-class DelayReportTest extends TestCase
+class DelayReportServiceTest extends TestCase
 {
+    protected $delayReportService;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->delayReportService = app()->make(DelayReportService::class);
+    }
+
     /**
      * A basic test example.
      *
@@ -24,9 +33,7 @@ class DelayReportTest extends TestCase
 
         $order = Order::factory()->create();
 
-        $service = app()->make(DelayReportService::class);
-
-        $service->addDelayReortToQueue($order);
+        $this->delayReportService->addDelayReortToQueue($order);
 
         $itemsInQueue = Redis::llen(DelayReportInterface::REDIS_DELAY_KEY);
 
@@ -42,9 +49,7 @@ class DelayReportTest extends TestCase
     {
         $order = Order::factory()->create();
 
-        $service = app()->make(DelayReportService::class);
-
-        $deliveryTime = $service->createNewOrderDeliveryTime($order);
+        $deliveryTime = $this->delayReportService->createNewOrderDeliveryTime($order);
 
         $this->assertEquals($order->fresh()->delivery_at, $deliveryTime);
     }
